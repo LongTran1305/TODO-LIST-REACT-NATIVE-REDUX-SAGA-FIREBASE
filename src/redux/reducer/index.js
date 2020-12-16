@@ -1,4 +1,4 @@
-import { ADD_TODO, DELETE_TODO, EDIT_TODO } from "../constant/index";
+import { ADD_TODO, DELETE_TODO, EDIT_TODO } from "../../constant";
 
 const INITIAL_STATE = {
       todoList: [],
@@ -24,7 +24,7 @@ const reducer = (state = INITIAL_STATE, action) => {
             //             }
             //       });
             case DELETE_TODO: {
-                  const { itemKey } = action.payload;
+                  const {itemKey}  = action.payload?.itemKey;
                   return {
                         ...state,
                         todoList: state.todoList.filter((todoList) => todoList.key !== itemKey)
