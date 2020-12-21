@@ -1,11 +1,15 @@
-import React from 'react';
-import {View,Text,SafeAreaView,FlatList} from 'react-native';
+import React, {useState,useEffect} from 'react';
+import {View,Text,SafeAreaView,FlatList,Image,ActivityIndicator} from 'react-native';
+import SearchBar from '../FlatList/SearchBar/';
 
 import DATA from './data';
 
-import styles from './style';
+import styles from './styles';
 
 const demoFlatList = () =>{
+    const [text,setText] = useState('');
+    const [data, setData] = useState(DATA);
+
     const renderItem = ({item}) => {
         return(
             <View style={styles.item}>
@@ -14,9 +18,21 @@ const demoFlatList = () =>{
         )
     }
 
+    const handleOnChangeText = (text) ? data.filter(item => {
+        const itemData = item.title.toUpperCase();
+        const textData = text.toUpperCase();
+            return itemData.indexOf(textData) > -1;
+    }) : data;
+
+
+
     return(
         <SafeAreaView style={styles.container}>
-            <FlatList data={DATA} renderItem={renderItem}  />
+            <SearchBar onChangeText={setText}/>
+            <FlatList
+                data={handleOnChangeText}
+                renderItem={renderItem}
+            />
         </SafeAreaView>
     )
 }
