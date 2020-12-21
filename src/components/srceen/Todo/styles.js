@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 
 const styles = StyleSheet.create({
@@ -28,9 +28,12 @@ const styles = StyleSheet.create({
     },
 
     flatListView: {
-        width: '100%',
-        paddingHorizontal: 5,
+        width: '80%',
+        paddingHorizontal: 15,
         margin: 10,
+
+
     },
+
 })
 export default styles;
