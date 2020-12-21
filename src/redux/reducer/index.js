@@ -24,7 +24,7 @@ const reducer = (state = INITIAL_STATE, action) => {
             //             }
             //       });
             case DELETE_TODO: {
-                  const {itemKey}  = action.payload?.itemKey;
+                  const { itemKey } = action.payload?.itemKey;
                   return {
                         ...state,
                         todoList: state.todoList.filter((todoList) => todoList.key !== itemKey)
