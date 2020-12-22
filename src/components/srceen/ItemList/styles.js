@@ -1,18 +1,19 @@
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
-    flatListItem: {
+    container: {
+        flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: 5,
         backgroundColor: 'orange',
-        width: '80%',
+        width: '100%',
         alignSelf: 'center',
         margin: 5,
+
     },
-    textItem: {
-        fontSize: 24,
-        color: '#FFFFFF'
+    itemTitle: {
+        fontSize: 22,
     }
 })
 export default styles;

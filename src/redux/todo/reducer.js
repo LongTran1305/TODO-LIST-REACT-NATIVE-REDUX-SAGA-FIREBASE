@@ -1,17 +1,18 @@
 import { ADD_TODO, DELETE_TODO, EDIT_TODO } from "../../constant";
 
-const INITIAL_STATE = {
-      todoList: [],
-}
+const INITIAL_STATE ={
+      todoList: []
+};
 
 
-const reducer = (state = INITIAL_STATE, action) => {
+
+export default (state = INITIAL_STATE, action) => {
       switch (action.type) {
             case ADD_TODO: {
                   return {
                         ...state,
                         todoList: [
-                              ...state.todoList,
+                              ...state,
                               action.payload
                         ],
                   }
@@ -27,7 +28,7 @@ const reducer = (state = INITIAL_STATE, action) => {
                   const { itemKey } = action.payload?.itemKey;
                   return {
                         ...state,
-                        todoList: state.todoList.filter((todoList) => todoList.key !== itemKey)
+                        todoList: state.filter((todoList) => todoList.key !== itemKey)
                   };
             }
             default:
@@ -35,4 +36,4 @@ const reducer = (state = INITIAL_STATE, action) => {
 
       }
 };
-export default reducer;
+

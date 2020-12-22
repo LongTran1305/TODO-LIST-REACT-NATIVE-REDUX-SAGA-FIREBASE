@@ -1,26 +1,19 @@
 import React from 'react';
 import {Text, TouchableOpacity, View} from "react-native";
-import {Foundation} from "@expo/vector-icons";
+import {Foundation as DeleteIcon} from "@expo/vector-icons";
+
 import styles from './styles';
 
-
-
-const Index = ({item,onPress}) => {
-
-    function handleOnPress(){
-        if(onPress){
-            onPress(item);
-        }
-    }
-    return (
+const ItemList = ({item,onPress}) =>(
         <TouchableOpacity  >
-            <View style={styles.flatListItem} >
-                <Text style={styles.textItem}>{item.data}</Text>
+            <View style={styles.container} >
+                <Text style={styles.itemTitle}>{item.todo}</Text>
+                <Text>Hello</Text>
                 <View>
-                    <Foundation name="x" size={24} color="black" onPress={handleOnPress} />
+                    <DeleteIcon name="x" size={24} color="black" onPress={onPress} />
                 </View>
             </View>
         </TouchableOpacity>
     );
-}
-export default Index;
+
+export default ItemList;

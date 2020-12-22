@@ -1,62 +1,34 @@
-import React, { useState } from 'react';
-import { FlatList, Text, TextInput, View, ScrollView, SafeAreaView } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { AntDesign } from '@expo/vector-icons';
-import { deleteTodo, newTodo } from '../../../redux/actions';
+import React, {useState} from 'react';
+import {FlatList, SafeAreaView, Text, TextInput, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {AntDesign as AddIcon} from '@expo/vector-icons';
+import {deleteTodo, newTodo} from '../../../redux/todo/action';
 import styles from './styles';
-import ItemList from '../ItemList';
+import ItemList from '../ItemList/index';
+import SearchBar from "../FlatList/SearchBar";
 
 const Index = () => {
+
     const dispatch = useDispatch();
     const list = useSelector(state => state);
-    const listOfTodo = Object.keys(list).map((key) => [String(key), list[key]]);
-    // const listOfTodo = list ? Object.values(list) : []
     const [todo, setTodo] = useState('');
-    const DATA = [
-        {
-            id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-            title: 'First Item',
-        },
-        {
-            id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-            title: 'Second Item',
-        },
-        {
-            id: '58694a0f-3da1-471f-bd96-145571e29d72',
-            title: 'Third Item',
-        },
-    ];
 
-
-    console.log(list);
     function handleDeleteOnPress(id) {
         dispatch(deleteTodo(id));
     }
 
-    function addTodo() {
+    function handleAddTodoOnPress() {
         dispatch(newTodo(todo));
         setTodo('');
     }
 
-    function removeTodo(id) {
-        dispatch(deleteTodo(id));
-    }
-
-    const renderItem = (props) => {
+    function renderItem({item}) {
         return (
-            <View style={{ flex: 1 }}>
-                <View>
-                    <Text>{props.key}</Text>
-                </View>
-                <View>
-                    <Text>{props.title}</Text>
-                </View>
-            </View>
-        );
+            <ItemList item={item.todo} onPress={handleDeleteOnPress}/>
+        )
     }
 
     const disabledIcon = todo === '';
-
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Todo</Text>
@@ -65,21 +37,19 @@ const Index = () => {
                     style={styles.textInput}
                     placeholder='Enter todo'
                     onChangeText={setTodo}
-                    value={todo} />
-                <AntDesign
+                    value={todo}/>
+                <AddIcon
                     name="pluscircle"
-                    size={30}
+                    size={32}
                     color="black"
-                    onPress={addTodo}
-                    disabled={disabledIcon} />
+                    onPress={handleAddTodoOnPress}
+                    disabled={disabledIcon}/>
             </View>
-
-            <SafeAreaView style={{ width: '100%', height: 400, alignItems: 'center', flex: 1 }}>
+            <SafeAreaView>
                 <FlatList
                     data={list}
                     renderItem={renderItem}
                     style={styles.flatListView}
-                    keyExtractor={item => item.key}
                 />
             </SafeAreaView>
         </View>

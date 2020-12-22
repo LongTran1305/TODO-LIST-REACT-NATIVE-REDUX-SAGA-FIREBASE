@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         flexDirection: 'row',
-        width: '80%',
         justifyContent: 'space-between',
         alignItems: 'flex-end',
     },
@@ -24,16 +23,20 @@ const styles = StyleSheet.create({
         width: '80%',
         borderRadius: 10,
         fontSize: 16,
-        padding: 10
-    },
+        padding: 10,
 
+    },
     flatListView: {
-        width: '80%',
+        width: '85%',
         paddingHorizontal: 15,
-        margin: 10,
-
-
+        marginTop: 10,
     },
+    safeView:{
+        width: '100%',
+        height: 400,
+        alignItems: 'center',
+        flex: 1
+    }
 
 })
 export default styles;
