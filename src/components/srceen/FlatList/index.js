@@ -1,5 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import {View,Text,SafeAreaView,FlatList,Image,ActivityIndicator} from 'react-native';
+
 import SearchBar from '../FlatList/SearchBar/';
 
 import DATA from './data';

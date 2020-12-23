@@ -1,7 +1,9 @@
 import React from 'react';
 import {Provider} from 'react-redux';
+
 import Index from './src/components/srceen/Todo';
 import DemoFlatList from "./src/components/srceen/FlatList";
+
 import rootStore from './src/redux/store';
 
 

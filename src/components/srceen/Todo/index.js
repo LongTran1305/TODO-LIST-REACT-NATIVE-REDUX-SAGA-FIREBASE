@@ -2,33 +2,48 @@ import React, {useState} from 'react';
 import {FlatList, SafeAreaView, Text, TextInput, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {AntDesign as AddIcon} from '@expo/vector-icons';
-import {deleteTodo, newTodo} from '../../../redux/todo/action';
+
+import ItemList from '../ItemList';
+
+import {deleteTodo, editTodo, newTodo} from '../../../redux/todo/action';
+
 import styles from './styles';
-import ItemList from '../ItemList/index';
-import SearchBar from "../FlatList/SearchBar";
+
 
 const Index = () => {
-
     const dispatch = useDispatch();
     const list = useSelector(state => state);
     const [todo, setTodo] = useState('');
 
-    function handleDeleteOnPress(id) {
+
+    function handleDeleteOnPress(id){
         dispatch(deleteTodo(id));
     }
 
-    function handleAddTodoOnPress() {
+    function handleAddTodoOnPress(){
         dispatch(newTodo(todo));
         setTodo('');
     }
 
-    function renderItem({item}) {
+    function handleEditTodoOnPress(){
+        dispatch(editTodo(id));
+    }
+
+    function editTodo(){
+        console.log("edit pressed");
+    }
+
+    function renderItem ({item}){
         return (
-            <ItemList item={item.todo} onPress={handleDeleteOnPress}/>
-        )
+            <ItemList item={item.todo}
+                      deleteOnPress={()=> handleDeleteOnPress(item.key)}
+                      editOnPress={editTodo}
+                      />
+        );
     }
 
     const disabledIcon = todo === '';
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Todo</Text>
@@ -47,9 +62,10 @@ const Index = () => {
             </View>
             <SafeAreaView>
                 <FlatList
-                    data={list}
+                    data={list.todo.todoList}
                     renderItem={renderItem}
                     style={styles.flatListView}
+                    keyExtractor={item => item.key.toString()}
                 />
             </SafeAreaView>
         </View>

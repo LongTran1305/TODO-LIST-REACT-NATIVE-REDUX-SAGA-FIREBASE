@@ -1,4 +1,4 @@
-import { ADD_TODO, DELETE_TODO, EDIT_TODO } from "../../constant";
+import { ADD_TODO, DELETE_TODO, EDIT_TODO } from "../../constant/actionTypes";
 
 const INITIAL_STATE ={
       todoList: []
@@ -12,28 +12,27 @@ export default (state = INITIAL_STATE, action) => {
                   return {
                         ...state,
                         todoList: [
-                              ...state,
+                              ...state.todoList,
                               action.payload
                         ],
                   }
             };
-            // case EDIT_NOTE:
-            //       console.log('edit todo')
-            //       return update(state, {
-            //             [payload.todo.id]: {
-            //                   todo: { $set: payload.todo.todo }
-            //             }
-            //       });
+            case EDIT_TODO:
+                  console.log('edit todo')
+                  return update(state, {
+                        [payload.todo.id]: {
+                              todo: { $set: payload.todo.todo }
+                        }
+                  });
             case DELETE_TODO: {
-                  const { itemKey } = action.payload?.itemKey;
+                  const { itemKey } = action.payload;
                   return {
                         ...state,
-                        todoList: state.filter((todoList) => todoList.key !== itemKey)
+                        todoList: state.todoList.filter((todoList) => todoList.key !== itemKey)
                   };
             }
             default:
                   return state;
-
       }
 };
 
