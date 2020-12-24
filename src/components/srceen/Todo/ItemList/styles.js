@@ -18,10 +18,10 @@ const styles = StyleSheet.create({
         fontSize: 22,
     },
     icon:{
-       flexDirection: 'row',
+        flexDirection: 'row',
     },
     editIcon:{
-      paddingHorizontal: 10,
+        paddingHorizontal: 10,
     }
 })
 export default styles;

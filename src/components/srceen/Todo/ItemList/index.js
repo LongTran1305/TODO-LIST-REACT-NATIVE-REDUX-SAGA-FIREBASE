@@ -6,7 +6,7 @@ import { AntDesign as EditIcon} from '@expo/vector-icons';
 import styles from './styles';
 
 const ItemList = ({item,deleteOnPress,editOnPress}) =>(
-        <TouchableOpacity  >
+        <TouchableOpacity >
             <View style={styles.container} >
                 <Text style={styles.itemTitle}>{item}</Text>
                 <View style={styles.icon}>
@@ -16,5 +16,4 @@ const ItemList = ({item,deleteOnPress,editOnPress}) =>(
             </View>
         </TouchableOpacity>
     );
-
 export default ItemList;

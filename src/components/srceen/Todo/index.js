@@ -3,18 +3,17 @@ import {FlatList, SafeAreaView, Text, TextInput, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {AntDesign as AddIcon} from '@expo/vector-icons';
 
-import ItemList from '../ItemList';
+import ItemList from './ItemList';
 
 import {deleteTodo, editTodo, newTodo} from '../../../redux/todo/action';
 
 import styles from './styles';
 
 
-const Index = () => {
+const Index = ({navigation}) => {
     const dispatch = useDispatch();
     const list = useSelector(state => state);
     const [todo, setTodo] = useState('');
-
 
     function handleDeleteOnPress(id){
         dispatch(deleteTodo(id));
@@ -25,23 +24,21 @@ const Index = () => {
         setTodo('');
     }
 
-    function handleEditTodoOnPress(){
-        dispatch(editTodo(id));
-    }
-
-    function editTodo(){
-        console.log("edit pressed");
+    function editTodo({item}){
+       navigation.navigate('Edit', {item});
     }
 
     function renderItem ({item}){
         return (
-            <ItemList item={item.todo}
-                      deleteOnPress={()=> handleDeleteOnPress(item.key)}
-                      editOnPress={editTodo}
-                      />
+            <ItemList
+                item={item.todo}
+                deleteOnPress={()=> handleDeleteOnPress(item.key)}
+                editOnPress={()=> editTodo({item})}
+            />
         );
     }
 
+    //disable addIcon when TextInput is empty
     const disabledIcon = todo === '';
 
     return (

@@ -4,8 +4,6 @@ const INITIAL_STATE ={
       todoList: []
 };
 
-
-
 export default (state = INITIAL_STATE, action) => {
       switch (action.type) {
             case ADD_TODO: {
@@ -18,12 +16,15 @@ export default (state = INITIAL_STATE, action) => {
                   }
             };
             case EDIT_TODO:
-                  console.log('edit todo')
-                  return update(state, {
-                        [payload.todo.id]: {
-                              todo: { $set: payload.todo.todo }
-                        }
-                  });
+                  let index = action.payload.id;
+                  let value =  action.payload.todo;
+                  return {
+                        ...state,
+                        todoList: state.todoList.map(Item =>
+                            Item.key === index ? { ...Item, todo: value, } : Item
+                        )
+
+                  };
             case DELETE_TODO: {
                   const { itemKey } = action.payload;
                   return {

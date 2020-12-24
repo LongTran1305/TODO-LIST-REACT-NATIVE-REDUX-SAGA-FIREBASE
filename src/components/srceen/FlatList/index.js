@@ -7,6 +7,7 @@ import DATA from './data';
 
 import styles from './styles';
 
+// This's just an optional FlatList with Filter
 const demoFlatList = () =>{
     const [text,setText] = useState('');
     const [data, setData] = useState(DATA);
@@ -38,3 +39,4 @@ const demoFlatList = () =>{
     )
 }
 export default demoFlatList;
+

@@ -18,11 +18,12 @@ export const deleteTodo = (id) => {
     }
 }
 
-export const editTodo = (id) => {
+export const editTodo = (newTodo,id) => {
     return {
         type: EDIT_TODO,
         payload:{
-            itemKey: id,
+             id,
+             todo: newTodo,
         }
     }
 }
