@@ -1,27 +1,39 @@
 import React, {useState} from 'react';
-import {FlatList, SafeAreaView, Text, TextInput, View} from 'react-native';
+import {Alert, FlatList, SafeAreaView, Text, TextInput, View, Keyboard} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {AntDesign as AddIcon} from '@expo/vector-icons';
 
 import ItemList from './ItemList';
 
-import {deleteTodo, editTodo, newTodo} from '../../../redux/todo/action';
-
 import styles from './styles';
 
+import {deleteTodo, editTodo, newTodo} from '../../../redux/todo/action';
 
-const Index = ({navigation}) => {
+const Todo = ({navigation}) => {
     const dispatch = useDispatch();
     const list = useSelector(state => state);
     const [todo, setTodo] = useState('');
 
     function handleDeleteOnPress(id){
-        dispatch(deleteTodo(id));
+        Alert.alert(
+            "",
+            "Are you sure you want to delete ?",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => null,
+                    style: "cancel"
+                },
+                { text: "OK", onPress: () => dispatch(deleteTodo(id))}
+            ],
+            { cancelable: false }
+        );
     }
 
     function handleAddTodoOnPress(){
         dispatch(newTodo(todo));
         setTodo('');
+        Keyboard.dismiss();
     }
 
     function editTodo({item}){
@@ -68,4 +80,4 @@ const Index = ({navigation}) => {
         </View>
     )
 }
-export default Index;
+export default Todo;

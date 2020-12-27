@@ -2,13 +2,13 @@ import React, {useState} from 'react';
 import {Text, TextInput, TouchableOpacity, View} from "react-native";
 import {useDispatch, useSelector} from 'react-redux';
 
-import { editTodo} from '../../../../redux/todo/action';
-
 import styles from './styles';
+
+import { editTodo} from '../../../../redux/todo/action';
 
 const EditScreen =  ({route,navigation}) =>{
     const dispatch = useDispatch();
-    //Get the value from TodoScreen
+    //Get the value of route from TodoScreen
     const {item} = route.params;
     const [updateTodo,setUpdateTodo] = useState(item.todo);
 
