@@ -1,4 +1,8 @@
-import { ADD_TODO, DELETE_TODO, EDIT_TODO } from "../../constant/actionTypes";
+import {
+      SET_ADD_TODO,
+      SET_DELETE_TODO,
+      SET_EDIT_TODO
+} from "../../constant/actionTypes";
 
 const INITIAL_STATE = {
       todoList: []
@@ -6,30 +10,22 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
       switch (action.type) {
-            case ADD_TODO: {
+            case SET_ADD_TODO: {
                   return {
                         ...state,
-                        todoList: [
-                              ...state.todoList,
-                              action.payload
-                        ],
+                        todoList: action.payload.todoList,
                   }
             };
-            case EDIT_TODO:
-                  const index = action.payload.id;
-                  const value = action.payload.todo;
+            case SET_EDIT_TODO:
                   return {
                         ...state,
-                        todoList: state.todoList.map(Item =>
-                              Item.key === index ? { ...Item, todo: value, } : Item
-                        )
-
+                        todoList: action.payload.todoList,
                   };
-            case DELETE_TODO: {
-                  const { itemKey } = action.payload;
+            case SET_DELETE_TODO: {
+
                   return {
                         ...state,
-                        todoList: state.todoList.filter((todoList) => todoList.key !== itemKey)
+                        todoList: action.payload.todoList,
                   };
             }
             default:

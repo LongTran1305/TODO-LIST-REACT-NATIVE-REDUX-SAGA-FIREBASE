@@ -1,20 +1,20 @@
-import React, {useState} from 'react';
-import {Alert, FlatList, SafeAreaView, Text, TextInput, View, Keyboard} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {AntDesign as AddIcon} from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { Alert, FlatList, SafeAreaView, Text, TextInput, View, Keyboard } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { AntDesign as AddIcon } from '@expo/vector-icons';
 
 import ItemList from './ItemList';
 
 import styles from './styles';
 
-import {deleteTodo, editTodo, newTodo} from '../../../redux/todo/action';
+import { deleteTodo, newTodo } from '../../../redux/todo/action';
 
-const Todo = ({navigation}) => {
+const Todo = ({ navigation }) => {
     const dispatch = useDispatch();
     const list = useSelector(state => state);
     const [todo, setTodo] = useState('');
 
-    function handleDeleteOnPress(id){
+    function handleDeleteOnPress(id) {
         Alert.alert(
             "",
             "Are you sure you want to delete ?",
@@ -24,28 +24,28 @@ const Todo = ({navigation}) => {
                     onPress: () => null,
                     style: "cancel"
                 },
-                { text: "OK", onPress: () => dispatch(deleteTodo(id))}
+                { text: "OK", onPress: () => dispatch(deleteTodo(id)) }
             ],
             { cancelable: false }
         );
     }
 
-    function handleAddTodoOnPress(){
+    function handleAddTodoOnPress() {
         dispatch(newTodo(todo));
         setTodo('');
         Keyboard.dismiss();
     }
 
-    function editTodo({item}){
-       navigation.navigate('Edit', {item});
+    function editTodo({ item }) {
+        navigation.navigate('Edit', { item });
     }
 
-    function renderItem ({item}){
+    function renderItem({ item }) {
         return (
             <ItemList
                 item={item.todo}
-                deleteOnPress={()=> handleDeleteOnPress(item.key)}
-                editOnPress={()=> editTodo({item})}
+                deleteOnPress={() => handleDeleteOnPress(item.key)}
+                editOnPress={() => editTodo({ item })}
             />
         );
     }
@@ -61,13 +61,13 @@ const Todo = ({navigation}) => {
                     style={styles.textInput}
                     placeholder='Enter todo'
                     onChangeText={setTodo}
-                    value={todo}/>
+                    value={todo} />
                 <AddIcon
                     name="pluscircle"
                     size={32}
                     color="black"
                     onPress={handleAddTodoOnPress}
-                    disabled={disabledIcon}/>
+                    disabled={disabledIcon} />
             </View>
             <SafeAreaView>
                 <FlatList

@@ -1,32 +1,60 @@
-import { all, put, fork } from 'redux-saga/effects'
-import { ADD_TODO, DELETE_TODO, EDIT_TODO } from '../../constant/actionTypes';
+import { all, put, fork, select, takeLatest } from 'redux-saga/effects'
+import {
+    PUSH_ADD_TODO,
+    SET_ADD_TODO,
+    PUSH_DELETE_TODO,
+    SET_DELETE_TODO,
+    PUSH_EDIT_TODO,
+    SET_EDIT_TODO
+} from '../../constant/actionTypes';
 
-function* watchAddTodo(todo) {
-    yield put({
-        type: ADD_TODO,
-        payload: {
-            key: Math.random().toString(),
-            todo,
-        }
+
+function* watchAddTodo() {
+    yield takeLatest(PUSH_ADD_TODO, function* (action) {
+        const state = yield select((state) => state.todo);
+
+        yield put({
+            type: SET_ADD_TODO,
+            payload: {
+                ...state,
+                todoList: [
+                    ...state.todoList,
+                    action.payload
+                ],
+            }
+        })
     })
 }
 
-function* watchUpdateTodo(newTodo, id) {
-    yield put({
-        type: EDIT_TODO,
-        payload: {
-            id,
-            todo: newTodo,
-        }
+function* watchUpdateTodo() {
+    yield takeLatest(PUSH_EDIT_TODO, function* (action) {
+        const state = yield select((state) => state.todo);
+        const index = action.payload.id;
+        const value = action.payload.todo;
+        yield put({
+            type: SET_EDIT_TODO,
+            payload: {
+                ...state,
+                todoList: state.todoList.map(Item =>
+                    Item.key === index ? { ...Item, todo: value, } : Item
+                )
+            }
+        })
     })
 }
 
-function* watchDeleteTodo(id) {
-    yield put({
-        type: DELETE_TODO,
-        payload: {
-            id
-        }
+function* watchDeleteTodo() {
+    yield takeLatest(PUSH_DELETE_TODO, function* (action) {
+        console.log(action);
+        const state = yield select((state) => state.todo);
+        const { itemKey } = action.payload;
+        yield put({
+            type: SET_DELETE_TODO,
+            payload: {
+                ...state,
+                todoList: state.todoList.filter((todoList) => todoList.key !== itemKey)
+            }
+        })
     })
 }
 
