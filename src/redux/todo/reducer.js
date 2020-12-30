@@ -10,24 +10,21 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
       switch (action.type) {
-            case SET_ADD_TODO: {
+            case SET_ADD_TODO:
                   return {
                         ...state,
                         todoList: action.payload.todoList,
-                  }
-            };
+                  };
             case SET_EDIT_TODO:
                   return {
                         ...state,
                         todoList: action.payload.todoList,
                   };
-            case SET_DELETE_TODO: {
-
+            case SET_DELETE_TODO:
                   return {
                         ...state,
                         todoList: action.payload.todoList,
                   };
-            }
             default:
                   return state;
       }

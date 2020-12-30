@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+
+import { firebase } from '../../../firebase/firebase';
+
 import { Alert, FlatList, SafeAreaView, Text, TextInput, View, Keyboard } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { AntDesign as AddIcon } from '@expo/vector-icons';
@@ -13,6 +16,20 @@ const Todo = ({ navigation }) => {
     const dispatch = useDispatch();
     const list = useSelector(state => state);
     const [todo, setTodo] = useState('');
+    // const todoRef = firebase.firestore().collection('Todo');
+    const db = firebase.firestore();
+    const todoRef = db.collection("Todo");
+
+    useEffect(() => {
+        async function getTodo() {
+            const snapshot = await todoRef.get();
+            snapshot.forEach(doc => {
+                console.log(doc.id, '=>', doc.data());
+            });
+        }
+        setTodo(getTodo);
+    }, []);
+
 
     function handleDeleteOnPress(id) {
         Alert.alert(
@@ -30,8 +47,12 @@ const Todo = ({ navigation }) => {
         );
     }
 
-    function handleAddTodoOnPress() {
-        dispatch(newTodo(todo));
+
+    async function handleAddTodoOnPress() {
+        // dispatch(newTodo(todo));'
+        todoRef.add({
+            todo: todo,
+        });
         setTodo('');
         Keyboard.dismiss();
     }
@@ -43,7 +64,7 @@ const Todo = ({ navigation }) => {
     function renderItem({ item }) {
         return (
             <ItemList
-                item={item.todo}
+                item={item}
                 deleteOnPress={() => handleDeleteOnPress(item.key)}
                 editOnPress={() => editTodo({ item })}
             />
@@ -52,7 +73,6 @@ const Todo = ({ navigation }) => {
 
     //disable addIcon when TextInput is empty
     const disabledIcon = todo === '';
-
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Todo</Text>
@@ -67,11 +87,13 @@ const Todo = ({ navigation }) => {
                     size={32}
                     color="black"
                     onPress={handleAddTodoOnPress}
-                    disabled={disabledIcon} />
+                // disabled={disabledIcon} 
+                />
             </View>
             <SafeAreaView>
                 <FlatList
-                    data={list.todo.todoList}
+                    // data={list.todo.todoList}
+                    data={todoRef}
                     renderItem={renderItem}
                     style={styles.flatListView}
                     keyExtractor={item => item.key.toString()}

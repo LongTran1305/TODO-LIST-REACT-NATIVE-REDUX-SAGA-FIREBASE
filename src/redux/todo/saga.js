@@ -1,4 +1,5 @@
-import { all, put, fork, select, takeLatest } from 'redux-saga/effects'
+import { all, put, fork, select, takeLatest } from 'redux-saga/effects';
+
 import {
     PUSH_ADD_TODO,
     SET_ADD_TODO,
@@ -7,7 +8,6 @@ import {
     PUSH_EDIT_TODO,
     SET_EDIT_TODO
 } from '../../constant/actionTypes';
-
 
 function* watchAddTodo() {
     yield takeLatest(PUSH_ADD_TODO, function* (action) {
@@ -21,40 +21,46 @@ function* watchAddTodo() {
                     ...state.todoList,
                     action.payload
                 ],
-            }
-        })
+            },
+        });
+
     })
 }
 
 function* watchUpdateTodo() {
     yield takeLatest(PUSH_EDIT_TODO, function* (action) {
         const state = yield select((state) => state.todo);
+
         const index = action.payload.id;
         const value = action.payload.todo;
+
         yield put({
             type: SET_EDIT_TODO,
             payload: {
                 ...state,
                 todoList: state.todoList.map(Item =>
                     Item.key === index ? { ...Item, todo: value, } : Item
-                )
-            }
-        })
+                ),
+            },
+        });
+
     })
 }
 
 function* watchDeleteTodo() {
     yield takeLatest(PUSH_DELETE_TODO, function* (action) {
-        console.log(action);
         const state = yield select((state) => state.todo);
+
         const { itemKey } = action.payload;
+
         yield put({
             type: SET_DELETE_TODO,
             payload: {
                 ...state,
-                todoList: state.todoList.filter((todoList) => todoList.key !== itemKey)
-            }
-        })
+                todoList: state.todoList.filter((todoList) => todoList.key !== itemKey),
+            },
+        });
+
     })
 }
 
