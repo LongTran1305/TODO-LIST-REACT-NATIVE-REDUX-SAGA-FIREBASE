@@ -27,16 +27,11 @@ const styles = StyleSheet.create({
 
     },
     flatListView: {
+        flex: 1,
         width: '85%',
         paddingHorizontal: 15,
         marginTop: 10,
     },
-    safeView:{
-        width: '100%',
-        height: 400,
-        alignItems: 'center',
-        flex: 1
-    }
 
 })
 export default styles;

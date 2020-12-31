@@ -12,9 +12,3 @@ export function configureStore() {
       sagaMiddleware.run(saga);
       return store;
 }
-
-
-
-
-
-

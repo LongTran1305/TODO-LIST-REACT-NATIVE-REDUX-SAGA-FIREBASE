@@ -13,23 +13,30 @@ import styles from './styles';
 import { deleteTodo, newTodo } from '../../../redux/todo/action';
 
 const Todo = ({ navigation }) => {
-    const dispatch = useDispatch();
-    const list = useSelector(state => state);
+    // const dispatch = useDispatch();
+    // const list = useSelector(state => state);
     const [todo, setTodo] = useState('');
-    // const todoRef = firebase.firestore().collection('Todo');
+    const [todoItem, setTodoItem] = useState('');
     const db = firebase.firestore();
     const todoRef = db.collection("Todo");
 
     useEffect(() => {
-        async function getTodo() {
-            const snapshot = await todoRef.get();
-            snapshot.forEach(doc => {
-                console.log(doc.id, '=>', doc.data());
-            });
-        }
-        setTodo(getTodo);
-    }, []);
-
+        todoRef
+            .onSnapshot(
+                querySnapshot => {
+                    const newEntities = []
+                    querySnapshot.forEach(doc => {
+                        const entity = doc.data()
+                        entity.id = doc.id
+                        newEntities.push(entity)
+                    });
+                    setTodoItem(newEntities)
+                },
+                error => {
+                    console.log(error)
+                }
+            )
+    }, [])
 
     function handleDeleteOnPress(id) {
         Alert.alert(
@@ -41,7 +48,8 @@ const Todo = ({ navigation }) => {
                     onPress: () => null,
                     style: "cancel"
                 },
-                { text: "OK", onPress: () => dispatch(deleteTodo(id)) }
+                // { text: "OK", onPress: () => dispatch(deleteTodo(id)) }
+                { text: "OK", onPress: () => todoRef.doc(id).delete() }
             ],
             { cancelable: false }
         );
@@ -64,8 +72,8 @@ const Todo = ({ navigation }) => {
     function renderItem({ item }) {
         return (
             <ItemList
-                item={item}
-                deleteOnPress={() => handleDeleteOnPress(item.key)}
+                item={item.todo}
+                deleteOnPress={() => handleDeleteOnPress(item.id)}
                 editOnPress={() => editTodo({ item })}
             />
         );
@@ -87,16 +95,16 @@ const Todo = ({ navigation }) => {
                     size={32}
                     color="black"
                     onPress={handleAddTodoOnPress}
-                // disabled={disabledIcon} 
+                    disabled={disabledIcon}
                 />
             </View>
             <SafeAreaView>
                 <FlatList
                     // data={list.todo.todoList}
-                    data={todoRef}
+                    data={todoItem}
                     renderItem={renderItem}
                     style={styles.flatListView}
-                    keyExtractor={item => item.key.toString()}
+                    keyExtractor={item => item.id.toString()}
                 />
             </SafeAreaView>
         </View>
