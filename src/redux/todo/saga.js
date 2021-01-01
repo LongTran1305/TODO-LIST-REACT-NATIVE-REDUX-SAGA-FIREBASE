@@ -9,20 +9,25 @@ import {
     SET_EDIT_TODO
 } from '../../constant/actionTypes';
 
+import {todoRef} from '../../firebase/firebase';
+
 function* watchAddTodo() {
     yield takeLatest(PUSH_ADD_TODO, function* (action) {
         const state = yield select((state) => state.todo);
 
-        yield put({
-            type: SET_ADD_TODO,
-            payload: {
-                ...state,
-                todoList: [
-                    ...state.todoList,
-                    action.payload
-                ],
-            },
+        todoRef.add({
+            todo: action.payload.todo,
         });
+        // yield put({
+        //     type: SET_ADD_TODO,
+        //     payload: {
+        //         ...state,
+        //         todoList: [
+        //             ...state.todoList,
+        //             action.payload
+        //         ],
+        //     },
+        // });
 
     })
 }
