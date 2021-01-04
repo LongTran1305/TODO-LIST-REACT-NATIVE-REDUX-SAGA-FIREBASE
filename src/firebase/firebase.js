@@ -15,6 +15,8 @@ if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
 }
 
-const db = firebase.firestore();
+export const db = firebase.firestore();
 
 export const todoRef = db.collection("Todo");
+
+export {firebase};

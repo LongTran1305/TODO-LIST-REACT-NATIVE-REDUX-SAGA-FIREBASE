@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { firebase } from '../../../firebase/firebase';
+// import todoRef from '../../../firebase/firebase';
 
 import { Alert, FlatList, SafeAreaView, Text, TextInput, View, Keyboard } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -57,10 +58,8 @@ const Todo = ({ navigation }) => {
 
 
     async function handleAddTodoOnPress() {
-        // dispatch(newTodo(todo));'
-        todoRef.add({
-            todo: todo,
-        });
+        dispatch(newTodo(todo));
+
         setTodo('');
         Keyboard.dismiss();
     }

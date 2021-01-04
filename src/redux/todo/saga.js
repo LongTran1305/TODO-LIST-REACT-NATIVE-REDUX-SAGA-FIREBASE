@@ -9,15 +9,20 @@ import {
     SET_EDIT_TODO
 } from '../../constant/actionTypes';
 
-import {todoRef} from '../../firebase/firebase';
+import todoRef from '../../firebase/firebase';
+import {firebase} from '../../firebase/firebase';
 
 function* watchAddTodo() {
     yield takeLatest(PUSH_ADD_TODO, function* (action) {
         const state = yield select((state) => state.todo);
+        // todoRef.add({
+        //     todo: action.todo,
+        // });
 
-        todoRef.add({
-            todo: action.payload.todo,
-        });
+        // yield call(todoRef.add({
+        //     todo: action.todo,
+        // }))
+
         // yield put({
         //     type: SET_ADD_TODO,
         //     payload: {
@@ -28,7 +33,6 @@ function* watchAddTodo() {
         //         ],
         //     },
         // });
-
     })
 }
 
@@ -48,7 +52,6 @@ function* watchUpdateTodo() {
                 ),
             },
         });
-
     })
 }
 
@@ -65,7 +68,6 @@ function* watchDeleteTodo() {
                 todoList: state.todoList.filter((todoList) => todoList.key !== itemKey),
             },
         });
-
     })
 }
 
