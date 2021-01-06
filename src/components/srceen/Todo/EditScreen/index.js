@@ -1,26 +1,19 @@
-import React, { useState } from 'react';
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
-import { useDispatch, useSelector } from 'react-redux';
-import { firebase } from '../../../../firebase';
+import React, {useState} from 'react';
+import {Text, TextInput, TouchableOpacity, View} from "react-native";
+import {useDispatch} from 'react-redux';
 
 import styles from './styles';
 
-import { editTodo } from '../../../../redux/todo/action';
+import {editTodo} from "../../../../redux/todo/action";
 
-const EditScreen = ({ route, navigation }) => {
+const EditScreen = ({route, navigation}) => {
     const dispatch = useDispatch();
     //Get the value of route from TodoScreen
-    const { item } = route.params;
+    const {item} = route.params;
     const [updateTodo, setUpdateTodo] = useState(item.todo);
-    const db = firebase.firestore();
-    const todoRef = db.collection("Todo");
 
-    // Send value,key to Reducer
     function handleEditTodoOnPress() {
-        // dispatch(editTodo(updateTodo, item.key));
-        todoRef.doc(item.id).update({
-            todo: updateTodo,
-        })
+        dispatch(editTodo(updateTodo, item.id));
         navigation.goBack();
     }
 

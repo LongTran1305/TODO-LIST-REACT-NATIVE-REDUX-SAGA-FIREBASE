@@ -1,36 +1,15 @@
-import {
-      SET_ADD_TODO,
-      SET_DELETE_TODO,
-      SET_EDIT_TODO,
-      SET_ALL_TODO,
-} from "../../constant/actionTypes";
+import {SET_ALL_TODO,} from "../../constant/actionTypes";
 
 const INITIAL_STATE = {
       todoList: []
 };
 
-
 export default (state = INITIAL_STATE, action) => {
       switch (action.type) {
-            case SET_ADD_TODO:
-                  return {
-                        ...state,
-                        todoList: action.payload.todoList,
-                  };
-            case SET_EDIT_TODO:
-                  return {
-                        ...state,
-                        todoList: action.payload.todoList,
-                  };
-            case SET_DELETE_TODO:
-                  return {
-                        ...state,
-                        todoList: action.payload.todoList,
-                  };
             case SET_ALL_TODO:
                   return {
                         ...state,
-                        todoList: action.payload.todoList,
+                        todoList: action.payload.todos,
                   }
             default:
                   return state;

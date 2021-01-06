@@ -1,8 +1,11 @@
-import {
-    PUSH_ADD_TODO,
-    PUSH_DELETE_TODO,
-    PUSH_EDIT_TODO,
-} from '../../constant/actionTypes';
+import {GET_ALL_TODO, PUSH_ADD_TODO, PUSH_DELETE_TODO, PUSH_EDIT_TODO,} from '../../constant/actionTypes';
+
+
+export const getTodo = () => {
+    return {
+        type: GET_ALL_TODO,
+    }
+}
 
 export const newTodo = (todo) => {
     return {
