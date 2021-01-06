@@ -1,12 +1,14 @@
 import {
       SET_ADD_TODO,
       SET_DELETE_TODO,
-      SET_EDIT_TODO
+      SET_EDIT_TODO,
+      SET_ALL_TODO,
 } from "../../constant/actionTypes";
 
 const INITIAL_STATE = {
       todoList: []
 };
+
 
 export default (state = INITIAL_STATE, action) => {
       switch (action.type) {
@@ -25,6 +27,11 @@ export default (state = INITIAL_STATE, action) => {
                         ...state,
                         todoList: action.payload.todoList,
                   };
+            case SET_ALL_TODO:
+                  return {
+                        ...state,
+                        todoList: action.payload.todoList,
+                  }
             default:
                   return state;
       }

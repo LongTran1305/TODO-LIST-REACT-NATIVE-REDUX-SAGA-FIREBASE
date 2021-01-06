@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import Navigation from './src/navigation';
 import { configureStore } from './src/redux/store';
 
-import './src/firebase/firebase'
+import './src/firebase'
 
 export default function App() {
     return (

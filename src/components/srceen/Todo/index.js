@@ -1,43 +1,51 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 
-import { firebase } from '../../../firebase/firebase';
-// import todoRef from '../../../firebase/firebase';
-
-import { Alert, FlatList, SafeAreaView, Text, TextInput, View, Keyboard } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { AntDesign as AddIcon } from '@expo/vector-icons';
+import {Alert, FlatList, Keyboard, SafeAreaView, Text, TextInput, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {AntDesign as AddIcon} from '@expo/vector-icons';
 
 import ItemList from './ItemList';
 
+import {SET_ALL_TODO} from '../../../constant/actionTypes';
+
 import styles from './styles';
 
-import { deleteTodo, newTodo } from '../../../redux/todo/action';
+import {newTodo} from '../../../redux/todo/action';
 
-const Todo = ({ navigation }) => {
-    // const dispatch = useDispatch();
-    // const list = useSelector(state => state);
+import firebaseCore from '../../../firebase';
+
+const Todo = ({navigation}) => {
+    const dispatch = useDispatch();
+    const todoList = useSelector(state => state.todo.todoList);
     const [todo, setTodo] = useState('');
     const [todoItem, setTodoItem] = useState('');
-    const db = firebase.firestore();
-    const todoRef = db.collection("Todo");
 
-    useEffect(() => {
-        todoRef
+    //disable addIcon when TextInput is empty
+    const disabledIcon = todo === '';
+
+    async function handleGetAll() {
+        firebaseCore.todoRef()
             .onSnapshot(
-                querySnapshot => {
-                    const newEntities = []
+                function (querySnapshot) {
+                    const todoList = [];
                     querySnapshot.forEach(doc => {
                         const entity = doc.data()
                         entity.id = doc.id
-                        newEntities.push(entity)
+                        todoList.push(entity);
+                        dispatch({
+                            type: SET_ALL_TODO,
+                            payload: {
+                                todoList,
+                            }
+                        })
                     });
-                    setTodoItem(newEntities)
+
                 },
                 error => {
-                    console.log(error)
+                    alert('Something went wrong!')
                 }
-            )
-    }, [])
+            );
+    }
 
     function handleDeleteOnPress(id) {
         Alert.alert(
@@ -59,7 +67,6 @@ const Todo = ({ navigation }) => {
 
     async function handleAddTodoOnPress() {
         dispatch(newTodo(todo));
-
         setTodo('');
         Keyboard.dismiss();
     }
@@ -68,18 +75,21 @@ const Todo = ({ navigation }) => {
         navigation.navigate('Edit', { item });
     }
 
-    function renderItem({ item }) {
+    function renderItem({item}) {
         return (
             <ItemList
                 item={item.todo}
                 deleteOnPress={() => handleDeleteOnPress(item.id)}
-                editOnPress={() => editTodo({ item })}
+                editOnPress={() => editTodo({item})}
             />
         );
     }
 
-    //disable addIcon when TextInput is empty
-    const disabledIcon = todo === '';
+    useEffect(() => {
+        handleGetAll();
+    }, []);
+
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Todo</Text>
@@ -88,7 +98,7 @@ const Todo = ({ navigation }) => {
                     style={styles.textInput}
                     placeholder='Enter todo'
                     onChangeText={setTodo}
-                    value={todo} />
+                    value={todo}/>
                 <AddIcon
                     name="pluscircle"
                     size={32}
@@ -99,8 +109,7 @@ const Todo = ({ navigation }) => {
             </View>
             <SafeAreaView>
                 <FlatList
-                    // data={list.todo.todoList}
-                    data={todoItem}
+                    data={todoList}
                     renderItem={renderItem}
                     style={styles.flatListView}
                     keyExtractor={item => item.id.toString()}
