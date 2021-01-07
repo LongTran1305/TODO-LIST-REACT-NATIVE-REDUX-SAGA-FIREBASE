@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, FlatList, Keyboard, SafeAreaView, Text, TextInput, View} from 'react-native';
+import {FlatList, Keyboard, SafeAreaView, Text, TextInput, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {AntDesign as AddIcon} from '@expo/vector-icons';
 
 import ItemList from './ItemList';
+import Alert from '../../Alert';
 
 import styles from './styles';
 
 import {deleteTodo, getTodo, newTodo} from '../../../redux/todo/action';
+import {setLoadingPopup} from "../../../redux/loading/action";
 
 const Todo = ({navigation}) => {
     const dispatch = useDispatch();
@@ -18,19 +20,12 @@ const Todo = ({navigation}) => {
     const disabledIcon = todo === '';
 
     function handleDeleteTodoOnPress(id) {
-        Alert.alert(
-            "",
-            "Are you sure you want to delete ?",
-            [
-                {
-                    text: "Cancel",
-                    onPress: () => null,
-                    style: "cancel"
-                },
-                {text: "OK", onPress: () => dispatch(deleteTodo(id))}
-            ],
-            { cancelable: false }
-        );
+        Alert(id, handleDispatchDeleteTodoOnPress)
+
+    }
+
+    function handleDispatchDeleteTodoOnPress(id) {
+        dispatch(deleteTodo(id));
     }
 
     function handleAddTodoOnPress() {
@@ -39,16 +34,16 @@ const Todo = ({navigation}) => {
         Keyboard.dismiss();
     }
 
-    function editTodo({ item }) {
-        navigation.navigate('Edit', { item });
+    function handleEditTodoScreen({item}) {
+        navigation.navigate('Edit', {item});
     }
 
     function renderItem({item}) {
         return (
             <ItemList
-                item={item.todo}
-                deleteOnPress={() => handleDeleteTodoOnPress(item.id)}
-                editOnPress={() => editTodo({item})}
+                item={item}
+                deleteOnPress={handleDeleteTodoOnPress}
+                editOnPress={handleEditTodoScreen}
             />
         );
     }

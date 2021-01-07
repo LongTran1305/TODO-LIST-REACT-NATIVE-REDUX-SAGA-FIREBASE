@@ -16,7 +16,6 @@ const EditScreen = ({route, navigation}) => {
         dispatch(editTodo(updateTodo, item.id));
         navigation.goBack();
     }
-
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Edit Screen</Text>

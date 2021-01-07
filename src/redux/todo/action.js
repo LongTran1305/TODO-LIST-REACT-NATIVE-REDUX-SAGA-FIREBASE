@@ -11,7 +11,6 @@ export const newTodo = (todo) => {
     return {
         type: PUSH_ADD_TODO,
         payload: {
-            // key: Math.random().toString(),
             todo,
         }
     }
