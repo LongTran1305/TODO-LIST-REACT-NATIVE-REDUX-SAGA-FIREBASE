@@ -2,7 +2,7 @@ import {SET_LOADING, SET_LOADING_POPUP} from "../../constant/actionTypes";
 
 const INITIAL_STATE = {
     isLoading: false,
-    isLoadingPopup: false,
+    isLoadingPopup: true,
 }
 
 export default (state = INITIAL_STATE, action) => {

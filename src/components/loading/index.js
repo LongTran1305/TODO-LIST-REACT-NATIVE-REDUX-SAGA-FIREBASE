@@ -11,7 +11,7 @@ const LoadingHOC = ({children}) => {
         <>
             {children}
             {isLoadingPopup === true ? (
-                <ActivityIndicator size="large" style={styles.loading} color='black'/>
+                <ActivityIndicator size="large" style={styles.loading} color='white'/>
             ) : null}
         </>
     )

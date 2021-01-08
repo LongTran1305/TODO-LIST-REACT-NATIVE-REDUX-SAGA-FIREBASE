@@ -50,6 +50,7 @@ const Todo = ({navigation}) => {
 
     useEffect(() => {
         dispatch(getTodo());
+
     }, []);
 
     return (
